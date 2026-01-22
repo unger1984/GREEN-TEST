@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
 import https from 'https';
 import { stringify } from 'qs';
@@ -25,61 +25,63 @@ export class RestClientAxiosService extends RestClientService {
 
 	public override async get<T>(url: string, params?: any): Promise<T> {
 		this.log.i(`GET ${url} request`);
-		return axios
-			.get<T>(url, params)
-			.catch(err => {
-				throw err;
-			})
-			.then(this.sendData<T>)
-			.then(res => {
-				this.log.i(`GET ${url} response`, res);
-
-				return res;
-			});
+		try {
+			const res = await axios.get<T>(url, params);
+			const parsed = this.sendData<T>(res);
+			this.log.i(`GET ${url} response`, parsed);
+			return parsed;
+		} catch (err: any) {
+			if (err.response) {
+				throw new HttpException(err.response.data, err.response.status);
+			}
+			throw err;
+		}
 	}
 
 	public override async delete<T>(url: string, params?: any): Promise<T> {
 		this.log.i(`DELETE ${url} request`);
-		return axios
-			.delete<T>(url, params)
-			.catch(err => {
-				throw err;
-			})
-			.then(this.sendData<T>)
-			.then(res => {
-				this.log.i(`DELETE ${url} response`, res);
-
-				return res;
-			});
+		try {
+			const res = await axios.delete<T>(url, params);
+			const parsed = this.sendData<T>(res);
+			this.log.i(`DELETE ${url} response`, parsed);
+			return parsed;
+		} catch (err: any) {
+			if (err.response) {
+				throw new HttpException(err.response.data, err.response.status);
+			}
+			throw err;
+		}
 	}
 
 	public override async post<T, D = any>(url: string, data?: D, params?: any): Promise<T> {
 		this.log.i(`POST ${url} request`, data, params);
-		return axios
-			.post<T>(url, data, params)
-			.catch(err => {
-				throw err;
-			})
-			.then(this.sendData<T>)
-			.then(res => {
-				this.log.i(`POST ${url} response`, res);
-
-				return res;
-			});
+		try {
+			const res = await axios.post<T>(url, data, params);
+			const parsed = this.sendData<T>(res);
+			this.log.i(`POST ${url} response`, parsed);
+			return parsed;
+		} catch (err: any) {
+			// Если есть ответ от сервера
+			if (err.response) {
+				throw new HttpException(err.response.data, err.response.status);
+			}
+			// иначе пробрасываем как есть
+			throw err;
+		}
 	}
 
 	public override async put<T, D = any>(url: string, data?: D, params?: any): Promise<T> {
 		this.log.i(`PUT ${url} request`, data, params);
-		return axios
-			.put<T>(url, data, params)
-			.catch(err => {
-				throw err;
-			})
-			.then(this.sendData<T>)
-			.then(res => {
-				this.log.i(`PUT ${url} response`, res);
-
-				return res;
-			});
+		try {
+			const res = await axios.put<T>(url, data, params);
+			const parsed = this.sendData<T>(res);
+			this.log.i(`PUT ${url} response`, parsed);
+			return parsed;
+		} catch (err: any) {
+			if (err.response) {
+				throw new HttpException(err.response.data, err.response.status);
+			}
+			throw err;
+		}
 	}
 }
