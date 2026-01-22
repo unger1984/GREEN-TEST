@@ -44,4 +44,4 @@
 
 - [Форма](https://green.unger1984.pro/)
 - [API doc](https://green.unger1984.pro/docs/)
-- [Видео](/Green-api.mov)
+- [Видео](https://github.com/unger1984/GREEN-TEST/raw/main/Green-api.mov)
