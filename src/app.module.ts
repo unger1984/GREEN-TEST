@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 
+import { SettingsModule } from './modules/settings/settings.module';
 import { ConfigFactory } from './shared/config/config.factory';
 import { ConfigModule } from './shared/config/config.module';
 import { RequestIdMiddleware } from './shared/middlewares/request-id.middleware';
@@ -12,6 +13,7 @@ import { RestClientModule } from './shared/rest-client/rest-client.module';
 			useFactory: async () => ConfigFactory.read(),
 		}),
 		RestClientModule,
+		SettingsModule,
 	],
 })
 export class AppModule {
