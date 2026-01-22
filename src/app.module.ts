@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 
+import { MessageModule } from './modules/message/message.module';
 import { SettingsModule } from './modules/settings/settings.module';
 import { ConfigFactory } from './shared/config/config.factory';
 import { ConfigModule } from './shared/config/config.module';
@@ -14,6 +15,7 @@ import { RestClientModule } from './shared/rest-client/rest-client.module';
 		}),
 		RestClientModule,
 		SettingsModule,
+		MessageModule,
 	],
 })
 export class AppModule {
