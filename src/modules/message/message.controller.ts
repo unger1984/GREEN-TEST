@@ -14,6 +14,7 @@ import {
 import { ApiAuth } from '../../shared/decorators/api-auth.decorator';
 import { ApiAuthGuard } from '../../shared/decorators/api-auth.guard';
 import { AuthDto } from '../../shared/dto/auth.dto';
+import { MessageFileDto } from './dto/message-file-url.dto';
 import { MessageResponseDto } from './dto/message-response.dto';
 import { MessageDto } from './dto/message.dto';
 import { MessageService } from './message.service';
@@ -43,5 +44,20 @@ export class MessageController {
 	@ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
 	async sendMessage(@ApiAuth() auth: AuthDto, @Body() message: MessageDto) {
 		return await this.messageService.sendMessage(auth.instance, auth.token, message);
+	}
+
+	@Post('/filebyurl')
+	@ApiOperation({
+		summary: 'Отправить файл по ссылке',
+		description:
+			'Метод предназначен для отправки файла, загружаемого по ссылке. Сообщение будет добавлено в очередь на отправку',
+	})
+	@ApiBody({ type: () => MessageFileDto, required: true, description: 'Файл' })
+	@ApiResponse({ status: 200, description: 'Success', type: () => MessageResponseDto })
+	@ApiUnauthorizedResponse({ description: 'Unauthorized' })
+	@ApiBadRequestResponse({ description: 'Bad Request' })
+	@ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
+	async sendFileByUrl(@ApiAuth() auth: AuthDto, @Body() file: MessageFileDto) {
+		return await this.messageService.sendFileByUrl(auth.instance, auth.token, file);
 	}
 }

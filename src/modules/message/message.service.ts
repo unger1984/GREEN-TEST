@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { ConfigService } from '../../shared/config/config.service';
 import { RestClientService } from '../../shared/rest-client/rest-client.service';
+import { MessageFileDto } from './dto/message-file-url.dto';
 import { MessageResponseDto, MessageResponseDtoScheme } from './dto/message-response.dto';
 import { MessageDto } from './dto/message.dto';
 
@@ -16,6 +17,14 @@ export class MessageService {
 		const res = await this.restClient.post<MessageResponseDto>(
 			`${this.configService.green.url}/waInstance${instance}/sendMessage/${token}`,
 			message,
+		);
+		return MessageResponseDtoScheme.parse(res);
+	}
+
+	public async sendFileByUrl(instance: string, token: string, file: MessageFileDto): Promise<MessageResponseDto> {
+		const res = await this.restClient.post<MessageResponseDto>(
+			`${this.configService.green.url}/waInstance${instance}/sendFileByUrl/${token}`,
+			file,
 		);
 		return MessageResponseDtoScheme.parse(res);
 	}
