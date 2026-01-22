@@ -4,6 +4,7 @@ import process from 'node:process';
 
 import { LogFactory } from '../log/log.factory';
 import { Config } from './config';
+import { ConfigGreen } from './config-green';
 import { ConfigServer } from './config-server';
 
 const defaultConfig: { [key: string]: string | null } = {
@@ -12,12 +13,17 @@ const defaultConfig: { [key: string]: string | null } = {
 	SERVER_PORT: '8080',
 	SERVER_URL: null,
 	SERVER_STATIC_PATH: './static',
+	GREEN_API_INSTANCE: null,
+	GREEN_API_TOKEN: null,
+	GREEN_API_URL: null,
+	GREEN_API_MEDIA: null,
 };
 
 export class ConfigFactory implements Config {
 	constructor(
 		public readonly env: string,
 		public readonly server: ConfigServer,
+		public readonly green: ConfigGreen,
 	) {}
 
 	public static read(): ConfigFactory {
@@ -55,7 +61,14 @@ export class ConfigFactory implements Config {
 			dotenv.SERVER_STATIC_PATH,
 		);
 
-		const config = new ConfigFactory(dotenv.ENV, server);
+		const green = new ConfigGreen(
+			dotenv.GREEN_API_INSTANCE,
+			dotenv.GREEN_API_TOKEN,
+			dotenv.GREEN_API_URL,
+			dotenv.GREEN_API_MEDIA,
+		);
+
+		const config = new ConfigFactory(dotenv.ENV, server, green);
 		log.d('Config', config);
 		log.i('Конфиг прочитан успешно');
 

@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 
 import { Config } from './config';
+import { ConfigGreen } from './config-green';
 import { ConfigServer } from './config-server';
 import { MODULE_OPTIONS_TOKEN } from './config.module-defenition';
 
@@ -18,5 +19,9 @@ export class ConfigService {
 
 	public get server(): ConfigServer {
 		return this.config.server;
+	}
+
+	public get green(): ConfigGreen {
+		return this.config.green;
 	}
 }
