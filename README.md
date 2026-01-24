@@ -1,7 +1,7 @@
 # Тестовое задание на должность "Lead/Senior Backend Developer (Node.js / Go)" в GREEN-API
 
-# Реализация на Golang
-# [Реализация на NestJs](https://github.com/unger1984/GREEN-TEST/tree/nestjs)
+- [Реализация на NestJs](https://github.com/unger1984/GREEN-TEST/tree/nestjs)
+- Реализация на Golang
 
 Учитывая что должность называется Backend Developer, при выполнении тестового задания, основные усилия были сосредоточены на Backend части. Кроме того, SDK предоставляемое GREEN-API, тоже не было использовано, чтобы показать максимальное владение используемыми инструментами.
 
